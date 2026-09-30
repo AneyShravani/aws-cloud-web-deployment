@@ -1,0 +1,199 @@
+/* ============================================================
+   AssignSystem — scoped to .asn-* only.
+   Uses ONLY tokens already defined in colors.css.
+   ============================================================ */
+
+.asn-page {
+  max-width: 560px;
+  margin: 8px 0;
+}
+
+.asn-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.asn-subheading {
+  font-size: 14px;
+  color: var(--color-text);
+  margin: 0 0 20px;
+}
+
+.asn-subheading strong {
+  color: var(--color-heading);
+}
+
+/* --- Form card --- */
+.asn-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.asn-field {
+  margin-bottom: 18px;
+}
+
+.asn-field:last-of-type {
+  margin-bottom: 0;
+}
+
+.asn-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;    /* start/end dates side by side, not stacked */
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.asn-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.asn-label svg {
+  color: var(--color-muted);
+}
+
+/* --- Shared input/select treatment --- */
+.asn-select,
+.asn-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--color-heading);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.asn-select:focus,
+.asn-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12);   /* soft ring derived from --color-primary */
+}
+
+.asn-inline-status {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--color-text);
+  padding: 8px 0;
+}
+
+.asn-inline-status--warn {
+  color: var(--color-warning);
+}
+
+/* --- Confirm button, with a real disabled state (was invisible before) --- */
+.asn-confirm-btn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.asn-confirm-btn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.asn-confirm-btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.asn-confirm-btn:disabled {
+  background: var(--color-muted);   /* visibly inactive instead of default gray browser button */
+  cursor: not-allowed;
+}
+
+.asn-confirm-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* --- Status text (top-level error / loading) --- */
+.asn-status {
+  font-size: 14px;
+  color: var(--color-text);
+  padding: 12px 0;
+}
+
+.asn-status--error {
+  color: var(--color-danger);
+}
+
+/* --- Success state: the Reference ID is the whole point of this system,
+   so it gets a distinct "receipt" treatment, not a plain <p> tag. --- */
+.asn-success-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.asn-success-icon {
+  color: var(--color-success);
+  margin-bottom: 8px;
+}
+
+.asn-success-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 4px 0 6px;
+}
+
+.asn-success-sub {
+  font-size: 13px;
+  color: var(--color-text);
+  margin: 0 0 20px;
+}
+
+.asn-refid {
+  display: inline-block;
+  padding: 14px 24px;
+  margin-bottom: 20px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-teal);
+  background: var(--color-section-bg);
+  border: 1px dashed var(--color-teal);   /* dashed = "tear here" receipt cue, ties to the ID's role */
+  border-radius: 10px;
+}
+
+.asn-secondary-btn {
+  /* neutral secondary per the 3-role button standard */
+  padding: 10px 18px;
+  background: var(--color-white);
+  color: var(--color-heading);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.asn-secondary-btn:hover {
+  background: var(--color-light-bg);
+  border-color: var(--color-muted);
+}

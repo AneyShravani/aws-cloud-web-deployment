@@ -1,0 +1,467 @@
+/* ============================================================
+   LabDetailsModal — bespoke details sheet for a single lab.
+   Uses the global palette from assets/colors.css only.
+   Deliberately NOT a grid of cards: hero + definition rows +
+   a segmented availability bar. Fully responsive + motion.
+   ============================================================ */
+
+.ld-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(16, 32, 24, 0.55);
+  animation: ld-overlay-in 0.25s ease both;
+}
+
+.ld-modal {
+  width: min(100%, 860px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-card-bg);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+  animation: ld-modal-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---------- Hero ---------- */
+.ld-hero {
+  position: relative;
+  flex: none;
+  /* extra right padding reserves a gutter for the absolute close button
+     so the systems-summary card never sits underneath it */
+  padding: 1.6rem 3.6rem 1.6rem 1.75rem;
+  color: var(--color-white);
+  background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-teal) 62%, var(--color-primary-hover) 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.ld-hero-glow {
+  position: absolute;
+  top: -60%;
+  right: -10%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), transparent 70%);
+  pointer-events: none;
+}
+
+.ld-hero-main {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  min-width: 0;
+  position: relative;
+}
+
+.ld-hero-icon {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.ld-hero-text {
+  min-width: 0;
+}
+
+.ld-hero-kicker {
+  margin: 0 0 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.ld-hero-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 1rem + 1.4vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.ld-hero-org {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* systems count summary, top-right of hero */
+.ld-hero-summary {
+  flex: none;
+  position: relative;
+  text-align: right;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-heading);
+  border-radius: 14px;
+  padding: 0.65rem 0.95rem;
+  min-width: 92px;
+}
+
+.ld-hero-summary strong {
+  display: block;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+.ld-hero-summary span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.ld-close {
+  position: absolute;
+  z-index: 3;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.ld-close:hover {
+  background: rgba(255, 255, 255, 0.34);
+  transform: rotate(90deg);
+}
+
+/* ---------- Body ---------- */
+.ld-body {
+  flex: 1;
+  min-height: 0;
+  padding: 1.5rem 1.75rem 1.75rem;
+  overflow-y: auto;
+}
+
+/* metadata as clean info tiles */
+.ld-meta {
+  margin: 0 0 1.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 0.65rem;
+}
+
+.ld-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--color-light-bg) 55%, var(--color-white));
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  animation: ld-row-in 0.4s ease both;
+}
+
+.ld-meta-row:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+  background: color-mix(in srgb, var(--color-primary) 4%, var(--color-white));
+}
+
+.ld-meta-ico {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, rgba(0, 135, 56, 0.12), rgba(26, 182, 157, 0.14));
+  border: 1px solid rgba(0, 135, 56, 0.12);
+  color: var(--color-primary);
+}
+
+.ld-meta-text {
+  min-width: 0;
+}
+
+.ld-meta-text dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.ld-meta-text dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+}
+
+/* ---------- Systems section ---------- */
+.ld-systems-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.ld-systems-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-heading);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ld-sys-count {
+  min-width: 1.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(0, 135, 56, 0.1);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ld-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.05rem;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  box-shadow: 0 10px 22px rgba(0, 135, 56, 0.18);
+  transition: background-color 0.18s ease, transform 0.15s ease;
+}
+
+.ld-add-btn:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* segmented availability bar — replaces the 3 chunky stat chips */
+.ld-util {
+  margin-bottom: 1.1rem;
+}
+
+.ld-util-bar {
+  display: flex;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--color-section-bg);
+}
+
+.ld-util-seg-available {
+  background: var(--color-success);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-util-seg-occupied {
+  background: var(--color-warning);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-util-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-top: 0.7rem;
+}
+
+.ld-util-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.ld-util-legend b {
+  color: var(--color-heading);
+}
+
+.ld-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.ld-dot-total { background: var(--color-muted); }
+.ld-dot-available { background: var(--color-success); }
+.ld-dot-occupied { background: var(--color-warning); }
+
+.ld-loading {
+  padding: 3rem 1.75rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* ---------- Inline add/edit sub-view ---------- */
+.ld-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  margin-bottom: 0.6rem;
+  transition: gap 0.18s ease;
+}
+
+.ld-back:hover {
+  gap: 0.65rem;
+}
+
+.ld-sub-title {
+  margin: 0 0 1.1rem;
+  font-size: 1.1rem;
+  color: var(--color-heading);
+}
+
+/* ---------- Motion ---------- */
+@keyframes ld-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ld-modal-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ld-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-overlay,
+  .ld-modal,
+  .ld-meta-row {
+    animation: none;
+  }
+  .ld-util-seg-available,
+  .ld-util-seg-occupied {
+    transition: none;
+  }
+  .ld-close:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .ld-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .ld-modal {
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* compact hero: reserve a smaller right gutter for the close button */
+  .ld-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 1.15rem 3.1rem 1.15rem 1.1rem;
+  }
+  .ld-hero-main {
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .ld-hero-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .ld-hero-kicker { font-size: 0.66rem; letter-spacing: 0.1em; }
+  .ld-hero-title { font-size: 1.15rem; }
+  .ld-hero-org {
+    margin-top: 0.45rem;
+    padding: 0.28rem 0.6rem;
+    font-size: 0.76rem;
+  }
+
+  /* the "N systems" block becomes a slim inline pill, not a big card;
+     indented by icon width + gap so it lines up with the title / org chip */
+  .ld-hero-summary {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    align-self: flex-start;
+    margin-left: calc(40px + 0.75rem);
+    text-align: left;
+    min-width: 0;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+  }
+  .ld-hero-summary strong { font-size: 1.15rem; }
+  .ld-hero-summary span { margin-top: 0; font-size: 0.68rem; }
+
+  .ld-close {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .ld-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+  .ld-systems-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ld-add-btn {
+    justify-content: center;
+  }
+}

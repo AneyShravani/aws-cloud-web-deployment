@@ -1,0 +1,350 @@
+/* ============================================================
+   ManualRequestForm — elevated modal form styling.
+   Built on the app's green token system (assets/colors.css).
+   ============================================================ */
+
+.mrf-form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+/* ---------- Intro line ---------- */
+.mrf-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mrf-intro-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--color-primary);
+  background: linear-gradient(135deg, rgba(0, 135, 56, 0.12), rgba(26, 182, 157, 0.14));
+}
+
+.mrf-intro p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ---------- Grid ---------- */
+.mrf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.mrf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.mrf-field--full {
+  grid-column: 1 / -1;
+}
+
+.mrf-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.mrf-req {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ---------- Inputs ---------- */
+.mrf-input,
+.mrf-select {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  background: var(--color-white);
+  color: var(--color-heading);
+  font-size: 0.92rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mrf-input::placeholder {
+  color: var(--color-muted);
+}
+
+.mrf-input:focus,
+.mrf-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12);
+}
+
+.mrf-input.has-error,
+.mrf-dropzone.has-error {
+  border-color: var(--color-danger);
+}
+
+.mrf-input.has-error:focus {
+  box-shadow: 0 0 0 3px rgba(255, 0, 3, 0.12);
+}
+
+/* native date icon tint */
+.mrf-input[type="date"] {
+  color: var(--color-heading);
+}
+
+/* ---------- Email lookup field ---------- */
+.mrf-email-wrap { position: relative; display: flex; align-items: center; }
+.mrf-email-icon { position: absolute; left: 0.85rem; color: var(--color-muted); pointer-events: none; }
+.mrf-input--email { padding-left: 2.2rem; }
+.mrf-lookup {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.8rem; font-weight: 600; color: var(--color-text); margin-top: 0.1rem;
+}
+.mrf-lookup.is-found { color: var(--color-success-dark); }
+.mrf-lookup.is-new { color: var(--color-info-dark); }
+.mrf-lookup svg { flex: none; }
+.mrf-spin { animation: mrf-spin 0.8s linear infinite; }
+@keyframes mrf-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .mrf-spin { animation: none; } }
+
+/* ---------- Select ---------- */
+.mrf-select-wrap {
+  position: relative;
+}
+
+.mrf-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.3rem;
+  cursor: pointer;
+}
+
+.mrf-select-arrow {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-text);
+}
+
+/* ---------- File dropzone ---------- */
+.mrf-dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border: 1.5px dashed var(--color-table-border);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  background: var(--color-light-bg);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mrf-dropzone:hover {
+  border-color: var(--color-primary);
+  background: rgba(0, 135, 56, 0.04);
+}
+
+.mrf-dropzone:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12);
+}
+
+.mrf-dropzone.is-filled {
+  border-style: solid;
+  border-color: rgba(0, 135, 56, 0.35);
+  background: rgba(0, 135, 56, 0.05);
+}
+
+.mrf-dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mrf-dz-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+}
+
+.mrf-dropzone.is-filled .mrf-dz-icon {
+  border-color: rgba(0, 135, 56, 0.3);
+}
+
+.mrf-dz-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mrf-dz-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mrf-dz-title .mrf-dz-accent {
+  color: var(--color-primary);
+}
+
+.mrf-dz-hint {
+  font-size: 0.78rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mrf-dz-remove {
+  position: relative;
+  z-index: 1;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-white);
+  color: var(--color-text);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.mrf-dz-remove:hover {
+  color: var(--color-danger);
+  background: rgba(255, 0, 3, 0.08);
+}
+
+/* ---------- Field error ---------- */
+.mrf-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ---------- Submit error banner ---------- */
+.mrf-submit-error {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 0, 3, 0.06);
+  border: 1px solid rgba(255, 0, 3, 0.22);
+  color: var(--color-danger);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.mrf-submit-error svg {
+  flex: none;
+}
+
+/* ---------- Actions ---------- */
+.mrf-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.mrf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  padding: 0.78rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, background-color 0.18s ease;
+}
+
+.mrf-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.mrf-btn-ghost {
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-heading);
+}
+
+.mrf-btn-ghost:hover {
+  border-color: var(--color-muted);
+  background: var(--color-light-bg);
+}
+
+.mrf-btn-primary {
+  border: 0;
+  color: var(--color-white);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+  box-shadow: 0 10px 24px rgba(0, 135, 56, 0.24);
+}
+
+.mrf-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0, 135, 56, 0.3);
+  filter: brightness(1.04);
+}
+
+.mrf-btn-primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.mrf-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .mrf-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mrf-actions {
+    flex-direction: column-reverse;
+  }
+
+  .mrf-actions .mrf-btn {
+    width: 100%;
+  }
+}

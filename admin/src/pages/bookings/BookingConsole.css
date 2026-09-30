@@ -1,0 +1,595 @@
+/* ============================================================
+   BookingConsole + BookSlotModal — Slot-Booking Module (v2).
+   Built on the app's green token system (assets/colors.css).
+   ============================================================ */
+
+.bc-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ---------- Header ---------- */
+.bc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.bc-heading { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.bc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+}
+
+.bc-title {
+    margin: 0;
+    font-size: clamp(1.45rem, 1rem + 1.5vw, 1.85rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--color-heading);
+}
+
+.bc-subtitle {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 60ch;
+}
+
+.bc-daystat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0.6rem 1.1rem;
+    border-radius: 14px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.05);
+}
+
+.bc-daystat-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+
+.bc-daystat-label { font-size: 0.78rem; color: var(--color-text); font-weight: 500; }
+
+/* ---------- Toolbar ---------- */
+.bc-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.bc-lab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.9rem;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+.bc-lab-icon { color: var(--color-primary); flex: none; }
+.bc-lab-select {
+    border: 0;
+    background: transparent;
+    padding: 0.7rem 0.25rem;
+    font-weight: 600;
+    color: var(--color-heading);
+    min-width: 140px;
+    cursor: pointer;
+}
+.bc-lab-select:focus { outline: none; }
+
+.bc-datenav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+
+.bc-datebtn {
+    width: 2.1rem;
+    height: 2.1rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-heading);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.bc-datebtn:hover:not(:disabled) { background: var(--color-light-bg); color: var(--color-primary); }
+.bc-datebtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.bc-datecenter {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border: 0;
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.bc-datecenter:hover { background: var(--color-light-bg); }
+.bc-datepick-ic { color: var(--color-primary); flex: none; }
+.bc-datepretty {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-heading);
+    padding: 0 0.35rem;
+    min-width: 150px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+/* the native date input sits invisibly over the pretty label so the
+   whole center area opens the picker on click */
+/* the native input is invisible; the wrapping button opens it via showPicker()
+   on click, so it must not intercept the click itself */
+.bc-dateinput {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    border: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.bc-today {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-heading);
+    background: var(--color-light-bg);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.bc-today:hover { color: var(--color-primary); }
+.bc-today.is-today { color: var(--color-primary); background: rgba(0, 135, 56, 0.1); }
+
+/* ---------- Legend ---------- */
+.bc-legend { display: flex; flex-wrap: wrap; gap: 1rem; }
+.bc-legend-item { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--color-text); }
+.bc-swatch { width: 14px; height: 14px; border-radius: 5px; display: inline-block; }
+.bc-swatch-free { background: var(--color-white); border: 1.5px dashed var(--color-table-border); }
+.bc-swatch-BOOKED { background: rgba(0, 135, 56, 0.55); }
+.bc-swatch-CHECKED_IN { background: rgba(27, 162, 219, 0.6); }
+.bc-swatch-COMPLETED { background: rgba(128, 128, 128, 0.5); }
+.bc-swatch-NO_SHOW { background: rgba(255, 0, 3, 0.5); }
+
+/* ---------- Banners ---------- */
+.bc-banner, .bc-error {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.1rem;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.bc-banner { background: rgba(0, 135, 56, 0.08); border: 1px solid rgba(0, 135, 56, 0.22); color: var(--color-primary); }
+.bc-error { background: rgba(255, 0, 3, 0.06); border: 1px solid rgba(255, 0, 3, 0.22); color: var(--color-danger); }
+/* read-only notice shown when viewing a past date */
+.bc-readonly {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-size: 0.9rem; font-weight: 500;
+    background: rgba(27, 162, 219, 0.08); border: 1px solid rgba(27, 162, 219, 0.28); color: var(--color-info-dark);
+}
+.bc-readonly svg { flex: none; }
+/* "working hours over" notice (today, all slots passed) */
+.bc-closed {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-size: 0.9rem; font-weight: 500;
+    background: rgba(255, 143, 60, 0.1); border: 1px solid rgba(255, 143, 60, 0.32); color: var(--color-warning-strong);
+}
+.bc-closed svg { flex: none; }
+
+/* ---------- Panel + grid ---------- */
+.bc-panel {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.05);
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.bc-placeholder { padding: 3rem 1.5rem; text-align: center; color: var(--color-text); }
+
+.bc-notice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3.25rem 1.5rem;
+    gap: 0.3rem;
+}
+.bc-notice-icon {
+    width: 60px; height: 60px; border-radius: 18px;
+    display: grid; place-items: center; margin-bottom: 0.6rem;
+    color: var(--color-primary);
+    background: linear-gradient(135deg, rgba(0, 135, 56, 0.12), rgba(26, 182, 157, 0.14));
+}
+.bc-notice h3 { margin: 0; font-size: 1.05rem; color: var(--color-heading); }
+.bc-notice p { margin: 0; color: var(--color-text); max-width: 46ch; line-height: 1.5; }
+
+.bc-gridscroll { overflow-x: auto; }
+
+.bc-grid {
+    display: grid;
+    grid-template-columns: minmax(150px, 1.4fr) repeat(var(--bc-slots), minmax(104px, 1fr));
+    gap: 8px;
+    min-width: max-content;
+}
+
+.bc-grid-corner,
+.bc-grid-sysname {
+    position: sticky;
+    left: 0;
+    /* must sit above the slot cells — a hovered/free cell lifts via transform
+       (its own stacking context) and would otherwise paint over this sticky
+       column while the grid is scrolled horizontally. The box-shadow paints an
+       8px solid strip that covers the grid gap seam, plus a soft depth shadow. */
+    z-index: 5;
+    background: var(--color-card-bg);
+    box-shadow: 8px 0 0 var(--color-card-bg), 12px 0 12px -8px rgba(16, 24, 40, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--color-heading);
+    padding: 0.4rem 0.6rem;
+}
+.bc-grid-corner { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text); }
+.bc-grid-sysname { font-size: 0.9rem; border-right: 1px solid var(--color-border); }
+
+.bc-grid-slothead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    background: var(--color-light-bg);
+    border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+}
+.bc-grid-slothead svg { color: var(--color-text); }
+.bc-grid-slotend { font-size: 0.68rem; font-weight: 500; color: var(--color-muted); }
+
+/* ---------- Cells ---------- */
+.bc-cell {
+    min-height: 56px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem;
+    transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bc-cell-free {
+    background: var(--color-white);
+    border: 1.5px dashed var(--color-table-border);
+    color: var(--color-muted);
+}
+.bc-cell-free:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(0, 135, 56, 0.05);
+    /* NB: no translateY lift here — a transform creates a stacking context that
+       paints over the sticky System column while the grid is scrolled. A box-
+       shadow gives the same "pop" without escaping the sticky column. */
+    box-shadow: 0 4px 12px rgba(0, 135, 56, 0.14);
+}
+
+/* past date: free cells are inert (view-only) — no book affordance */
+.bc-cell-free--past {
+    cursor: default;
+    background: var(--color-light-bg);
+    border-style: solid;
+    border-color: var(--color-border);
+    opacity: 0.7;
+}
+.bc-cell-free--past:hover {
+    border-color: var(--color-border);
+    color: var(--color-muted);
+    background: var(--color-light-bg);
+    box-shadow: none;
+}
+
+.bc-cell-booked {
+    justify-content: flex-start;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+.bc-cell-booked:hover { box-shadow: 0 6px 14px rgba(16, 24, 40, 0.12); }
+
+.bc-cell-avatar {
+    width: 26px; height: 26px; border-radius: 8px; flex: none;
+    display: grid; place-items: center;
+    font-size: 0.7rem; font-weight: 700;
+    background: rgba(255, 255, 255, 0.7);
+}
+.bc-cell-name {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* status tints (cells + badges + legend share the family) */
+.bc-status-BOOKED { background: rgba(0, 135, 56, 0.1); border-color: rgba(0, 135, 56, 0.28); color: var(--color-primary); }
+.bc-status-CHECKED_IN { background: rgba(27, 162, 219, 0.12); border-color: rgba(27, 162, 219, 0.3); color: var(--color-info-dark); }
+.bc-status-COMPLETED { background: rgba(128, 128, 128, 0.12); border-color: rgba(128, 128, 128, 0.28); color: var(--color-text); }
+.bc-status-NO_SHOW { background: rgba(255, 0, 3, 0.09); border-color: rgba(255, 0, 3, 0.28); color: var(--color-danger); }
+
+.bc-foot {
+    display: flex; align-items: center; gap: 0.4rem;
+    margin: 0; font-size: 0.82rem; color: var(--color-muted);
+}
+
+/* ---------- Detail modal ---------- */
+.bc-detail { display: flex; flex-direction: column; gap: 0.75rem; }
+.bc-detail-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--color-heading); font-size: 0.95rem;
+}
+.bc-detail-row svg { color: var(--color-text); flex: none; }
+
+.bc-status-badge {
+    display: inline-flex; align-items: center;
+    padding: 0.3rem 0.7rem; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.bc-detail-actions {
+    display: flex; justify-content: flex-end; gap: 0.6rem;
+    padding-top: 0.9rem; margin-top: 0.3rem;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Buttons (shared by console + modal) ---------- */
+.bc-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    border-radius: 999px; padding: 0.7rem 1.25rem;
+    font-weight: 600; font-size: 0.9rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease, background-color 0.15s ease;
+}
+.bc-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.bc-btn-ghost { border: 1px solid var(--color-border); background: var(--color-white); color: var(--color-heading); }
+.bc-btn-ghost:hover { border-color: var(--color-muted); background: var(--color-light-bg); }
+.bc-btn-primary {
+    border: 0; color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+    box-shadow: 0 10px 24px rgba(0, 135, 56, 0.24);
+}
+.bc-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(0, 135, 56, 0.3); filter: brightness(1.04); }
+.bc-btn-primary:disabled { opacity: 0.65; cursor: not-allowed; transform: none; box-shadow: none; }
+.bc-btn-danger { border: 0; color: var(--color-white); background: var(--color-danger); }
+.bc-btn-danger:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(255, 0, 3, 0.24); }
+
+/* ============================================================
+   BookSlotModal
+   ============================================================ */
+.bsm { display: flex; flex-direction: column; gap: 1.15rem; }
+
+.bsm-target {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-light-bg);
+    border-radius: 12px;
+}
+.bsm-target-item { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.88rem; color: var(--color-heading); }
+.bsm-target-item svg { color: var(--color-primary); }
+
+.bsm-field { display: flex; flex-direction: column; gap: 0.55rem; }
+.bsm-label { font-size: 0.85rem; font-weight: 600; color: var(--color-heading); }
+
+.bsm-search { position: relative; display: flex; align-items: center; }
+.bsm-search-icon { position: absolute; left: 0.85rem; color: var(--color-muted); pointer-events: none; }
+.bsm-search-input {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem 0.7rem 2.4rem;
+    font-size: 0.9rem;
+    background: var(--color-white);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.bsm-search-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12); }
+
+.bsm-userlist {
+    display: flex; flex-direction: column; gap: 0.4rem;
+    max-height: 230px; overflow-y: auto;
+    padding: 0.15rem;
+}
+.bsm-empty { padding: 1.5rem 1rem; text-align: center; color: var(--color-text); font-size: 0.88rem; line-height: 1.5; }
+
+.bsm-user {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-white);
+    text-align: left;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.bsm-user:hover { border-color: var(--color-primary); background: rgba(0, 135, 56, 0.03); }
+.bsm-user.is-selected { border-color: var(--color-primary); background: rgba(0, 135, 56, 0.07); }
+
+.bsm-user-avatar {
+    width: 34px; height: 34px; border-radius: 10px; flex: none;
+    display: grid; place-items: center;
+    background: rgba(0, 135, 56, 0.1); color: var(--color-primary);
+}
+.bsm-user-meta { display: flex; flex-direction: column; min-width: 0; }
+.bsm-user-name { font-weight: 600; font-size: 0.9rem; color: var(--color-heading); }
+.bsm-user-sub {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.78rem; color: var(--color-text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bsm-user-check { margin-left: auto; color: var(--color-primary); flex: none; }
+
+.bsm-modes { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.bsm-mode {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-white);
+    font-weight: 600; font-size: 0.88rem; color: var(--color-text);
+    transition: all 0.15s ease;
+}
+.bsm-mode:hover { color: var(--color-heading); }
+.bsm-mode.is-active { border-color: var(--color-primary); color: var(--color-primary); background: rgba(0, 135, 56, 0.07); }
+
+.bsm-recurring {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-light-bg);
+    border-radius: 12px;
+}
+.bsm-recurring-label { font-size: 0.88rem; font-weight: 500; color: var(--color-heading); }
+.bsm-recurring-hint { font-size: 0.78rem; color: var(--color-text); width: 100%; }
+.bsm-date-input {
+    border: 1px solid var(--color-border); border-radius: 10px;
+    padding: 0.5rem 0.7rem; font-size: 0.88rem; background: var(--color-white);
+}
+.bsm-date-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12); }
+
+.bsm-error {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 0.9rem; border-radius: 10px;
+    background: rgba(255, 0, 3, 0.06); border: 1px solid rgba(255, 0, 3, 0.2);
+    color: var(--color-danger); font-size: 0.85rem; font-weight: 500;
+}
+
+.bsm-actions {
+    display: flex; justify-content: flex-end; gap: 0.6rem;
+    padding-top: 1rem; border-top: 1px solid var(--color-border);
+}
+
+/* ============================================================
+   Hover status bubble (manga speech-bubble) — colour matches the cell
+   ============================================================ */
+.bc-tip {
+    position: fixed;
+    z-index: 1300;
+    pointer-events: none;
+    /* tone tokens, overridden per status */
+    --tb: var(--color-white);
+    --tbd: rgba(0, 135, 56, 0.35);
+    --tt: var(--color-heading);
+    --tl: var(--color-primary);
+}
+.bc-tip--top { transform: translate(-50%, -100%); }
+.bc-tip--bottom { transform: translate(-50%, 0); }
+
+.bc-tip--free       { --tb: var(--color-white); --tbd: rgba(0, 135, 56, 0.35);  --tt: var(--color-heading); --tl: var(--color-primary); }
+.bc-tip--BOOKED     { --tb: color-mix(in srgb, var(--color-success) 12%, var(--color-white)); --tbd: rgba(0, 135, 56, 0.38);  --tt: var(--color-primary-dark);              --tl: var(--color-primary); }
+.bc-tip--CHECKED_IN { --tb: color-mix(in srgb, var(--color-info) 12%, var(--color-white)); --tbd: rgba(27, 162, 219, 0.42);--tt: var(--color-info-dark);              --tl: var(--color-info-dark); }
+.bc-tip--COMPLETED  { --tb: var(--color-light-bg); --tbd: rgba(128, 128, 128, 0.42);--tt: var(--color-heading);             --tl: var(--color-text); }
+.bc-tip--NO_SHOW    { --tb: color-mix(in srgb, var(--color-danger) 8%, var(--color-white)); --tbd: rgba(255, 0, 3, 0.35);   --tt: var(--color-danger-dark);              --tl: var(--color-danger); }
+
+.bc-tip-body {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    max-width: 220px;
+    padding: 0.55rem 0.7rem;
+    border-radius: 14px;
+    background: var(--tb);
+    border: 1px solid var(--tbd);
+    box-shadow: 0 12px 28px rgba(16, 24, 40, 0.18);
+    animation: bcTipPop 0.16s ease;
+    transform-origin: center bottom;
+}
+.bc-tip--bottom .bc-tip-body { transform-origin: center top; }
+
+/* the speech-bubble tail (a rotated square sharing the bubble's fill + edge) */
+.bc-tip-body::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 11px;
+    height: 11px;
+    background: var(--tb);
+    transform: translateX(-50%) rotate(45deg);
+}
+.bc-tip--top .bc-tip-body::after {
+    bottom: -6px;
+    border-right: 1px solid var(--tbd);
+    border-bottom: 1px solid var(--tbd);
+}
+.bc-tip--bottom .bc-tip-body::after {
+    top: -6px;
+    border-left: 1px solid var(--tbd);
+    border-top: 1px solid var(--tbd);
+}
+
+.bc-tip-ic { flex: none; margin-top: 1px; color: var(--tl); }
+.bc-tip-text { display: flex; flex-direction: column; min-width: 0; }
+.bc-tip-title {
+    font-weight: 700;
+    font-size: 0.82rem;
+    line-height: 1.2;
+    color: var(--tt);
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bc-tip-line { font-weight: 600; font-size: 0.77rem; line-height: 1.3; color: var(--tl); font-variant-numeric: tabular-nums; }
+.bc-tip-meta { font-size: 0.68rem; font-weight: 500; color: var(--tt); opacity: 0.55; margin-top: 1px; }
+
+@keyframes bcTipPop {
+    from { opacity: 0; transform: scale(0.9) translateY(6px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* touch devices don't hover — never show the bubble there (tap opens details) */
+@media (hover: none) {
+    .bc-tip { display: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .bc-header { flex-direction: column; align-items: stretch; }
+    .bc-daystat { align-items: flex-start; }
+    .bc-toolbar { flex-direction: column; align-items: stretch; }
+    .bc-lab, .bc-datenav { width: 100%; justify-content: space-between; }
+    .bc-datepretty { min-width: 0; flex: 1; }
+    .bsm-actions { flex-direction: column-reverse; }
+    .bsm-actions .bc-btn { width: 100%; }
+}

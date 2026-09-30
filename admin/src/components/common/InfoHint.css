@@ -1,0 +1,92 @@
+/* ============================================================
+   InfoHint — global "?" help tooltip. Token-based, theme-safe,
+   responsive. Sits inline beside a heading; the popover animates
+   in on hover / focus / tap.
+   ============================================================ */
+.info-hint {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  /* never inherit a heading's size/spacing/casing */
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.info-hint-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  cursor: help;
+  color: var(--color-muted);
+  background: transparent;
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+.info-hint-btn:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+.info-hint-btn:active { transform: scale(0.9); }
+.info-hint-btn:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* the popover */
+.info-hint-pop {
+  position: absolute;
+  top: calc(100% + 9px);
+  /* left-anchored to the icon so it always opens rightward and never
+     clips against a left-aligned heading / the content edge */
+  left: -4px;
+  z-index: 500;
+  width: max-content;
+  max-width: min(280px, 74vw);
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: var(--color-heading);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.45;
+  white-space: normal;
+  text-align: left;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.24);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(0, -4px) scale(0.97);
+  transform-origin: top left;
+  transition: opacity 0.18s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.info-hint-pop::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 12px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 2px;
+  background: var(--color-heading);
+  transform: rotate(45deg);
+}
+.info-hint-pop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, 0) scale(1);
+}
+.info-hint-pop a { color: var(--color-teal); text-decoration: underline; }
+.info-hint-pop strong { color: var(--color-white); font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  .info-hint-pop { transition: opacity 0.12s ease; transform: translate(0, 0) scale(1); }
+  .info-hint-pop:not(.is-open) { transform: translate(0, 0) scale(1); }
+}

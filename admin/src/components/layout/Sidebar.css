@@ -1,0 +1,400 @@
+/* ============================================================
+   Sidebar — modern app-style navigation.
+   Fixed-width rail on desktop; slides in as an off-canvas drawer
+   on tablet/mobile (≤900px). Built on the app's green tokens.
+   ============================================================ */
+
+.sidebar {
+  --sb-gap: 0.25rem;
+  width: 264px;
+  flex: none;
+  /* fills the fixed-height shell; the shell (not the sidebar) owns the page,
+     so the rail stays put while only .page-main scrolls */
+  height: 100%;
+  background: var(--color-card-bg);
+  border-right: 1px solid var(--color-border);
+  padding: 1.15rem 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  overflow: hidden; /* internal nav scrolls; sidebar itself never does on desktop */
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Brand ---------- */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.35rem 0.55rem 1rem;
+  position: relative;
+}
+.sidebar-brand::after {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  right: 0.55rem;
+  bottom: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--color-white);
+  background: linear-gradient(140deg, var(--color-primary), var(--color-teal));
+  box-shadow: 0 6px 16px rgba(0, 135, 56, 0.28);
+}
+
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+.sidebar-brand-text strong {
+  color: var(--color-heading);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sidebar-brand-text span {
+  color: var(--color-text);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* Close (✕) — only inside the mobile drawer */
+.sidebar-close {
+  display: none;
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+.sidebar-close:hover { color: var(--color-danger); border-color: var(--color-danger); background: rgba(255, 0, 3, 0.06); }
+.sidebar-close:active { transform: scale(0.92); }
+
+/* Collapse / expand toggle — desktop only */
+.sidebar-collapse {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+.sidebar-collapse:hover { color: var(--color-primary); border-color: var(--color-primary); background: rgba(0, 135, 56, 0.06); }
+.sidebar-collapse:active { transform: scale(0.92); }
+
+/* ---------- Nav ---------- */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sb-gap);
+  /* take the space between brand and footer; scroll internally if the list
+     is taller than the viewport, so brand + footer never get pushed off */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0 -0.15rem;
+  padding: 0 0.35rem 0 0.15rem;
+  /* Auto-hiding scrollbar (Firefox): hidden until the nav is hovered.
+     The track width is reserved so nothing shifts when the thumb appears. */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+/* reveal on hover only — NOT :focus-within, or clicking a link keeps it
+   focused and the bar would stay stuck visible after the mouse leaves */
+.sidebar-nav:hover {
+  scrollbar-color: rgba(0, 135, 56, 0.4) transparent;
+}
+/* WebKit/Blink: transparent thumb by default, slim brand-green pill on hover.
+   border + padding-box keeps the visible thumb thin (~4px) inside an 8px track. */
+.sidebar-nav::-webkit-scrollbar {
+  width: 8px;
+}
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+.sidebar-nav:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-primary) 45%, var(--color-muted));
+  background-clip: padding-box;
+}
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+  background-clip: padding-box;
+}
+.sidebar-nav-label {
+  margin: 0.15rem 0.65rem 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 11px;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: color 0.16s ease, background-color 0.16s ease;
+}
+
+/* animated left rail — grows in when active */
+.sidebar-link-rail {
+  position: absolute;
+  left: -0.15rem;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-primary);
+  transform: translateY(-50%);
+  transition: height 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-icon {
+  position: relative; /* anchors the notification badge */
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: var(--color-text);
+  background: transparent;
+  transition: color 0.16s ease, background-color 0.16s ease, transform 0.16s ease;
+}
+.sidebar-link-text { min-width: 0; }
+
+/* Notification bubble — pinned to the icon's top-right corner, so it reads
+   the same whether the rail is expanded or collapsed. The ring in the
+   sidebar's own colour lifts it cleanly off the icon underneath. */
+.sidebar-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-danger);
+  color: var(--color-white);
+  font-size: 0.64rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  box-shadow: 0 0 0 2px var(--color-card-bg), 0 2px 5px rgba(255, 0, 3, 0.34);
+  animation: sidebar-badge-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes sidebar-badge-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-badge { animation: none; }
+}
+
+.sidebar-link:hover {
+  background: var(--color-light-bg);
+  color: var(--color-heading);
+}
+.sidebar-link:hover .sidebar-icon {
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.sidebar-link.active {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-white));
+}
+.sidebar-link.active .sidebar-icon {
+  color: var(--color-white);
+  background: linear-gradient(140deg, var(--color-primary), var(--color-teal));
+  box-shadow: 0 4px 10px rgba(0, 135, 56, 0.28);
+}
+.sidebar-link.active .sidebar-link-rail { height: 60%; }
+.sidebar-link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+/* ---------- Footer ---------- */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 12px;
+}
+.sidebar-avatar {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(0, 135, 56, 0.1);
+  border: 1px solid rgba(0, 135, 56, 0.14);
+}
+.sidebar-user-meta { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.sidebar-user-meta strong {
+  font-size: 0.88rem; font-weight: 700; color: var(--color-heading);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sidebar-user-meta span {
+  font-size: 0.76rem; color: var(--color-text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.sidebar-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-heading);
+  padding: 0.72rem 0.9rem;
+  border-radius: 11px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, transform 0.15s ease;
+}
+.sidebar-logout:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: rgba(255, 0, 3, 0.05);
+}
+.sidebar-logout:active { transform: scale(0.98); }
+
+/* ---------- Off-canvas drawer (tablet + mobile) ---------- */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 280px;
+    max-width: 84vw;
+    height: 100%;
+    box-shadow: 8px 0 32px rgba(15, 23, 42, 0.22);
+    transform: translateX(-100%);
+    transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sidebar.is-open { transform: translateX(0); }
+  .sidebar-close { display: inline-flex; }
+  /* collapse is a desktop-only affordance; the drawer is always full width */
+  .sidebar-collapse { display: none; }
+  .sidebar.is-collapsed { width: 280px; max-width: 84vw; }
+
+  /* stagger the links in as the drawer opens */
+  .sidebar.is-open .sidebar-link {
+    animation: sb-link-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .sidebar.is-open .sidebar-link:nth-child(2) { animation-delay: 0.04s; }
+  .sidebar.is-open .sidebar-link:nth-child(3) { animation-delay: 0.07s; }
+  .sidebar.is-open .sidebar-link:nth-child(4) { animation-delay: 0.10s; }
+  .sidebar.is-open .sidebar-link:nth-child(5) { animation-delay: 0.13s; }
+  .sidebar.is-open .sidebar-link:nth-child(6) { animation-delay: 0.16s; }
+  .sidebar.is-open .sidebar-link:nth-child(7) { animation-delay: 0.19s; }
+  .sidebar.is-open .sidebar-link:nth-child(8) { animation-delay: 0.22s; }
+  .sidebar.is-open .sidebar-link:nth-child(9) { animation-delay: 0.25s; }
+  .sidebar.is-open .sidebar-link:nth-child(10) { animation-delay: 0.28s; }
+}
+
+@keyframes sb-link-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Collapsed rail (desktop only) ---------- */
+@media (min-width: 901px) {
+  .sidebar.is-collapsed {
+    width: 78px;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+  .sidebar.is-collapsed .sidebar-brand {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.2rem 0 1rem;
+  }
+  .sidebar.is-collapsed .sidebar-brand::after { left: 0.9rem; right: 0.9rem; }
+  .sidebar.is-collapsed .sidebar-brand-text { display: none; }
+  .sidebar.is-collapsed .sidebar-collapse { margin-left: 0; }
+
+  .sidebar.is-collapsed .sidebar-nav-label { display: none; }
+  .sidebar.is-collapsed .sidebar-link {
+    justify-content: center;
+    gap: 0;
+    padding: 0.4rem;
+  }
+  .sidebar.is-collapsed .sidebar-link-text { display: none; }
+
+  .sidebar.is-collapsed .sidebar-user {
+    justify-content: center;
+    padding: 0.35rem 0;
+  }
+  .sidebar.is-collapsed .sidebar-user-meta { display: none; }
+  .sidebar.is-collapsed .sidebar-logout {
+    justify-content: center;
+    padding: 0.6rem;
+    gap: 0;
+  }
+  .sidebar.is-collapsed .sidebar-logout span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar { transition: none; }
+  .sidebar-link, .sidebar-link-rail, .sidebar-icon { transition: none; }
+  .sidebar.is-open .sidebar-link { animation: none; }
+}

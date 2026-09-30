@@ -1,0 +1,81 @@
+:root {
+  --color-primary: #008738;
+  --color-primary-hover: #72BD20;
+  --color-teal: #1AB69D;
+  --color-success: #3EB75E;
+  --color-danger: #FF0003;
+  --color-warning: #FF8F3C;
+  --color-info: #1BA2DB;
+  --color-heading: #181818;
+  --color-text: #808080;
+  --color-muted: #BABABA;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-page-bg: #F5F9FA;
+  --color-section-bg: #EAF0F2;
+  --color-card-bg: #FFFFFF;
+  --color-light-bg: #F0F4F5;
+  --color-border: #E5E5E5;
+  --color-table-border: #DDDDDD;
+
+  /* ---- Brand & status shades ----
+     These name the exact tints/shades already used across the app so no
+     component has to hard-code a hex. Use these instead of raw colours. */
+  --color-primary-strong: #00A344;   /* gradient mid / hover green */
+  --color-primary-bright: #00B84D;   /* gradient bright end */
+  --color-primary-dark: #0B5C2B;     /* dark green text on light tints */
+  --color-success-dark: #1F9D4D;     /* success text on soft-green bg */
+  --color-warning-strong: #B45F0D;   /* warning text on soft-amber bg */
+  --color-warning-mid: #C96A12;
+  --color-warning-bright: #E88A2F;   /* warning gradient end */
+  --color-danger-strong: #D90003;    /* danger hover */
+  --color-danger-dark: #A30002;      /* danger pressed / deep text */
+  --color-info-dark: #1481B0;        /* info text on soft-blue bg */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* App-wide control polish: native form controls (checkboxes, radios, date
+   pickers, range) pick up the brand green; text selection + focus feel
+   consistent everywhere without overriding any component's own styles. */
+:root {
+  accent-color: var(--color-primary);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--color-page-bg);
+  color: var(--color-heading);
+  line-height: 1.5;
+  letter-spacing: -0.006em; /* Manrope reads a touch tighter — subtle, matches the sidebar feel */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings get a hair tighter tracking so they feel deliberate, not default */
+h1, h2, h3, h4 { letter-spacing: -0.02em; }
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

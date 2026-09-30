@@ -1,0 +1,59 @@
+/* App shell is exactly one viewport tall and never scrolls itself —
+   the sidebar stays pinned full-height and only .page-main scrolls.
+   This kills the "empty space below the sidebar" gap on long pages. */
+.page-shell {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--color-page-bg);
+}
+
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0; /* allow the inner scroll area to shrink instead of pushing the shell taller */
+}
+
+.page-main {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;   /* the only vertical scroll region on the page */
+  min-height: 0;
+  scroll-behavior: smooth;
+}
+
+/* Backdrop behind the mobile drawer — hidden on desktop */
+.sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    flex-direction: column;
+  }
+
+  .page-main {
+    padding: 1rem;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .sidebar-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}

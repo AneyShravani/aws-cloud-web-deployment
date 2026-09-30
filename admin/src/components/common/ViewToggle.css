@@ -1,0 +1,73 @@
+/* ============================================================
+   ViewToggle + shared "table view" scrollbar.
+   Desktop always shows the physical table, so the toggle is
+   hidden there; it only appears at the responsive breakpoint
+   (≤900px) where tables would otherwise be forced to cards.
+   ============================================================ */
+
+.view-toggle { display: none; }
+
+@media (max-width: 900px) {
+    .view-toggle {
+        display: inline-flex;
+        flex: none;
+        padding: 3px;
+        gap: 3px;
+        border-radius: 999px;
+        background: var(--color-light-bg);
+        border: 1px solid var(--color-border);
+    }
+}
+
+.view-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.view-toggle-btn:hover:not(.is-active) { color: var(--color-heading); }
+.view-toggle-btn.is-active {
+    background: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+/* ---------- Branded horizontal scrollbar (table view) ----------
+   Applied to every responsive table-scroll container so that, when
+   the user picks "Table" on a narrow screen, there's a clearly
+   visible green scrollbar signalling more columns to the right. */
+.tv-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-light-bg);
+}
+.tv-scroll::-webkit-scrollbar { height: 9px; }
+.tv-scroll::-webkit-scrollbar-track {
+    background: var(--color-light-bg);
+    border-radius: 999px;
+    margin: 0 0.75rem;
+}
+.tv-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-teal));
+    border-radius: 999px;
+}
+.tv-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-strong));
+}
+
+/* In table view on mobile, keep the scrollbar in view (a little bottom
+   padding so it never hugs the last row) and hint that it scrolls. */
+@media (max-width: 900px) {
+    [data-view='table'].tv-scroll {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+}

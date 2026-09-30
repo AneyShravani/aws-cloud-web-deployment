@@ -1,0 +1,277 @@
+/* ============================================================
+   CheckInDesk — Slot-Booking Module (v2, Phase 3).
+   Built on the app's green token system (assets/colors.css).
+   ============================================================ */
+
+.cid-page { display: flex; flex-direction: column; gap: 1.35rem; }
+
+/* ---------- Header ---------- */
+.cid-header { display: flex; flex-direction: column; gap: 0.35rem; }
+.cid-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-primary);
+}
+.cid-title {
+    margin: 0; font-size: clamp(1.45rem, 1rem + 1.5vw, 1.85rem);
+    line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; color: var(--color-heading);
+}
+.cid-subtitle { margin: 0; color: var(--color-text); font-size: 0.95rem; line-height: 1.5; max-width: 60ch; }
+
+/* ---------- ID box ---------- */
+.cid-box {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 0.5rem 0.5rem 1.1rem;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.05);
+    max-width: 640px;
+}
+.cid-box:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 135, 56, 0.12); }
+.cid-box-icon { color: var(--color-muted); flex: none; }
+.cid-box-input {
+    flex: 1; border: 0; background: transparent;
+    padding: 0.65rem 0; font-size: 1rem; color: var(--color-heading);
+    letter-spacing: 0.01em;
+}
+.cid-box-input:focus { outline: none; }
+.cid-box-btn {
+    border: 0; border-radius: 999px; padding: 0.7rem 1.4rem;
+    font-weight: 600; font-size: 0.92rem; color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+    box-shadow: 0 8px 20px rgba(0, 135, 56, 0.22);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.cid-box-btn:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.cid-box-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+/* ---------- Error ---------- */
+.cid-error {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.8rem 1.1rem; border-radius: 12px;
+    background: rgba(255, 0, 3, 0.06); border: 1px solid rgba(255, 0, 3, 0.22);
+    color: var(--color-danger); font-size: 0.9rem; font-weight: 500;
+    max-width: 640px;
+}
+
+/* ---------- Result ---------- */
+.cid-result {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.05);
+    padding: 1.25rem;
+    display: flex; flex-direction: column; gap: 1.1rem;
+}
+
+.cid-usercard { display: flex; align-items: center; gap: 0.9rem; }
+.cid-avatar {
+    width: 48px; height: 48px; border-radius: 14px; flex: none;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 1rem;
+    background: rgba(0, 135, 56, 0.1); color: var(--color-primary);
+}
+.cid-user-meta { display: flex; flex-direction: column; min-width: 0; }
+.cid-user-name { font-weight: 700; font-size: 1.05rem; color: var(--color-heading); }
+.cid-user-sub {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.85rem; color: var(--color-text);
+}
+.cid-user-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+.cid-livestatus { padding: 0.3rem 0.7rem; border-radius: 999px; font-size: 0.76rem; font-weight: 700; }
+.cid-live-ACTIVE { background: rgba(0, 135, 56, 0.12); color: var(--color-primary); }
+.cid-live-NEARING_EXPIRY { background: rgba(255, 143, 60, 0.16); color: var(--color-warning); }
+.cid-live-EXPIRED { background: rgba(255, 0, 3, 0.1); color: var(--color-danger); }
+.cid-refid {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.8rem; font-weight: 600; color: var(--color-text);
+}
+
+.cid-window {
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: center;
+    padding: 0.7rem 0.9rem; border-radius: 12px;
+    background: var(--color-light-bg);
+    font-size: 0.88rem; color: var(--color-heading);
+}
+.cid-window span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.cid-window svg { color: var(--color-primary); }
+.cid-project { color: var(--color-text); font-weight: 500; }
+
+/* ---------- Sections ---------- */
+.cid-section { display: flex; flex-direction: column; gap: 0.6rem; }
+.cid-section-title { margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-heading); }
+
+.cid-empty {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    margin: 0; color: var(--color-text); font-size: 0.9rem;
+}
+.cid-inline-link {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    color: var(--color-primary); font-weight: 600;
+}
+.cid-inline-link:hover { text-decoration: underline; }
+
+/* today's bookings */
+.cid-bookings { display: flex; flex-direction: column; gap: 0.5rem; }
+.cid-booking {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(110px, 1fr) 110px minmax(120px, 1fr) auto;
+    align-items: center; gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-left-width: 4px;
+    border-radius: 12px;
+    background: var(--color-white);
+}
+.cid-booking-slot, .cid-booking-sys { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.88rem; color: var(--color-heading); }
+.cid-booking-slot svg, .cid-booking-sys svg { color: var(--color-text); }
+.cid-booking-status { font-size: 0.82rem; font-weight: 600; color: var(--color-text); }
+.cid-booking-times { font-size: 0.8rem; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.cid-booking-action { justify-self: end; }
+.cid-booking-done { color: var(--color-success); display: inline-flex; }
+
+/* status accents on the left border */
+.cid-booking.cid-status-BOOKED { border-left-color: var(--color-primary); }
+.cid-booking.cid-status-CHECKED_IN { border-left-color: var(--color-info); }
+.cid-booking.cid-status-COMPLETED { border-left-color: var(--color-muted); }
+.cid-booking.cid-status-NO_SHOW { border-left-color: var(--color-danger); }
+
+.cid-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    border: 0; border-radius: 999px; padding: 0.55rem 1rem;
+    font-weight: 600; font-size: 0.85rem; color: var(--color-white);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.cid-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.cid-btn-in { background: var(--color-primary); box-shadow: 0 6px 16px rgba(0, 135, 56, 0.22); }
+.cid-btn-in:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.cid-btn-out { background: var(--color-info); box-shadow: 0 6px 16px rgba(27, 162, 219, 0.22); }
+.cid-btn-out:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+/* upcoming */
+.cid-upcoming { display: flex; flex-direction: column; gap: 0.35rem; }
+.cid-upcoming-row {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--color-border); border-radius: 10px;
+    background: var(--color-light-bg);
+    font-size: 0.85rem; color: var(--color-heading);
+}
+.cid-upcoming-row span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.cid-upcoming-row svg { color: var(--color-text); }
+
+/* ---------- Attendance panel ---------- */
+.cid-attendance {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.05);
+    padding: 1.25rem;
+    display: flex; flex-direction: column; gap: 0.9rem;
+}
+.cid-attendance-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.cid-att-tools { display: inline-flex; align-items: center; gap: 0.75rem; }
+.cid-attendance-date { font-size: 0.85rem; color: var(--color-text); font-weight: 500; }
+
+.cid-att-scroll { overflow-x: auto; }
+.cid-att-table { width: 100%; border-collapse: collapse; min-width: 820px; }
+.cid-att-table th {
+    text-align: left; padding: 0.6rem 0.75rem;
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--color-text); font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+}
+.cid-att-table td {
+    padding: 0.7rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-heading); font-size: 0.88rem;
+}
+.cid-att-table tr:last-child td { border-bottom: 0; }
+.cid-num { font-variant-numeric: tabular-nums; }
+
+.cid-tag {
+    display: inline-flex; padding: 0.25rem 0.6rem; border-radius: 999px;
+    font-size: 0.76rem; font-weight: 700;
+}
+.cid-tag.cid-status-BOOKED { background: rgba(0, 135, 56, 0.1); color: var(--color-primary); }
+.cid-tag.cid-status-CHECKED_IN { background: rgba(27, 162, 219, 0.12); color: var(--color-info-dark); }
+.cid-tag.cid-status-COMPLETED { background: rgba(128, 128, 128, 0.14); color: var(--color-text); }
+.cid-tag.cid-status-NO_SHOW { background: rgba(255, 0, 3, 0.1); color: var(--color-danger); }
+
+/* access-id cell */
+.cid-refcell {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+/* contextual check-in / check-out actions */
+.cid-rowaction { white-space: nowrap; }
+.cid-muted { color: var(--color-muted); font-size: 0.85rem; }
+.cid-done-ic { color: var(--color-success); }
+.cid-act {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    border: 0; border-radius: 999px;
+    padding: 0.45rem 0.9rem; font-weight: 600; font-size: 0.82rem;
+    color: var(--color-white);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.cid-act:disabled { opacity: 0.6; cursor: not-allowed; }
+.cid-act-in { background: var(--color-primary); box-shadow: 0 6px 16px rgba(0, 135, 56, 0.22); }
+.cid-act-in:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.cid-act-out { background: var(--color-info); box-shadow: 0 6px 16px rgba(27, 162, 219, 0.22); }
+.cid-act-out:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+/* ---------- Focus + responsive ---------- */
+.cid-page button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+/* Tablet + mobile: the attendance table becomes stacked cards instead of a
+   horizontally-scrolling row. Breakpoint matches the sidebar drawer (≤900px). */
+@media (max-width: 900px) {
+    .cid-att-scroll[data-view='grid'] { overflow-x: visible; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table { min-width: 0; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table,
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody,
+    .cid-att-scroll[data-view='grid'] .cid-att-table tr,
+    .cid-att-scroll[data-view='grid'] .cid-att-table td { display: block; width: 100%; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table thead { display: none; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody tr {
+        width: auto;
+        border: 1px solid var(--color-border);
+        border-radius: 14px;
+        margin-bottom: 0.75rem;
+        padding: 0.15rem 0;
+        background: var(--color-white);
+    }
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody tr:last-child { margin-bottom: 0; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody td {
+        display: flex; align-items: flex-start; justify-content: space-between; gap: 0.85rem;
+        padding: 0.6rem 1rem; border-bottom: 1px solid var(--color-light-bg);
+        text-align: right;
+    }
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody td > * { min-width: 0; overflow-wrap: anywhere; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table tbody tr td:last-child { border-bottom: 0; }
+    .cid-att-scroll[data-view='grid'] .cid-att-table td[data-label]::before {
+        content: attr(data-label);
+        flex: none; padding-top: 0.1rem;
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+        color: var(--color-muted); text-align: left;
+    }
+    .cid-att-scroll[data-view='grid'] .cid-refcell { white-space: normal; }
+    /* keep the row action compact & right-aligned (overrides the ≤680 full-width rule) */
+    .cid-att-scroll[data-view='grid'] .cid-att-table .cid-act { width: auto; }
+}
+
+@media (max-width: 680px) {
+    .cid-box { max-width: 100%; }
+    .cid-usercard { flex-wrap: wrap; }
+    .cid-user-right { margin-left: 0; align-items: flex-start; flex-direction: row; gap: 0.6rem; }
+    .cid-booking {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem 0.75rem;
+    }
+    .cid-booking-action { grid-column: 1 / -1; justify-self: stretch; }
+    .cid-act { width: 100%; justify-content: center; }
+}

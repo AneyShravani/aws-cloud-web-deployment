@@ -1,0 +1,24 @@
+{
+  "name": "ai-lab-maintenance-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend API (Node.js + Express + MongoDB). Dependencies (express, mongoose, jsonwebtoken, bcrypt, multer, nodemailer, node-cron, dotenv, cors) and scripts will be added when the project is initialized.",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.4",
+    "multer": "^2.2.0",
+    "nodemailer": "^7.0.1",
+    "pdfkit": "^0.19.1"
+  }
+}

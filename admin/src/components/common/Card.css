@@ -1,0 +1,35 @@
+.info-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 1.15rem;
+  box-shadow: 0 10px 25px rgba(24, 24, 24, 0.04);
+}
+
+.info-card-title {
+  margin: 0 0 0.35rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.info-card-value {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.info-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card-icon {
+  font-size: 22px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.info-card-value {
+  color: var(--color-heading);
+}

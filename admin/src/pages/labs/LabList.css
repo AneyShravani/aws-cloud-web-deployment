@@ -1,0 +1,352 @@
+.lab-row-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lab-action-button {
+  min-height: 42px;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 1px solid transparent;
+  background: var(--color-white);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.lab-action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(24, 24, 24, 0.08);
+}
+
+/* View + Edit are non-destructive secondary actions -> neutral (3-role standard) */
+.lab-action-view,
+.lab-action-edit {
+  border-color: var(--color-border);
+  color: var(--color-heading);
+}
+
+.lab-action-view:hover,
+.lab-action-edit:hover {
+  background: var(--color-light-bg);
+  border-color: var(--color-muted);
+}
+
+.lab-action-delete {
+  background: var(--color-danger);
+  color: var(--color-white);
+  box-shadow: 0 8px 18px rgba(255, 0, 3, 0.14);
+}
+
+.lab-action-delete:hover {
+  background: var(--color-danger-strong);
+}
+
+.lab-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lab-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.lab-detail-item {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-light-bg);
+  padding: 0.8rem 0.9rem;
+  min-width: 0;
+}
+
+.lab-detail-item span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--color-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lab-detail-item strong {
+  display: block;
+  color: var(--color-heading);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.lab-systems-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lab-systems-section h4 {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: 1rem;
+}
+
+.lab-systems-table {
+  max-height: 280px;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+}
+
+.lab-systems-table .data-table {
+  border-radius: 0;
+}
+
+.lab-detail-empty {
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-light-bg);
+  color: var(--color-text);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .lab-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-row-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lab-action-button {
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------*/
+/* ============================================================
+   Occupancy chips + highlighted total — uses the EXISTING team
+   color system from src/assets/colors.css, not invented variables.
+   ============================================================ */
+
+/* highlights Total Systems Count so it stands out from the other
+   6 plain reference fields in the details grid */
+.lab-detail-item-highlight {
+  background: rgba(0, 135, 56, 0.06);       /* faint tint of --color-primary */
+  border: 1px solid var(--color-primary);
+}
+
+/* row of 3 small stat cards above the systems table */
+.occupancy-strip {
+  display: flex;
+  gap: 12px;
+  margin: 4px 0 4px;
+}
+
+.occupancy-chip {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;               /* matches --color-border radius style used elsewhere */
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid var(--color-border);
+}
+
+.occupancy-chip span {
+  font-size: 12px;
+  color: var(--color-text);          /* matches team's muted label color */
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.occupancy-chip strong {
+  font-size: 20px;
+  color: var(--color-heading);       /* matches team's heading color */
+}
+
+.occupancy-chip-total {
+  background: var(--color-light-bg);
+}
+
+.occupancy-chip-available {
+  background: rgba(62, 183, 94, 0.08);   /* tint of --color-success */
+  border-color: var(--color-success);
+}
+
+.occupancy-chip-occupied {
+  background: rgba(255, 143, 60, 0.08);  /* tint of --color-warning */
+  border-color: var(--color-warning);
+}
+/* NEW: keep system row actions compact and side-by-side, not wrapped/stacked */
+.lab-systems-table .lab-row-actions {
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+.lab-systems-table .lab-action-button {
+  padding: 0.4rem 0.7rem;
+  min-height: 32px;
+  font-size: 0.8rem;
+}
+
+/* ============================================================
+   System spec panels (Module 3.5) — one panel per system inside
+   the Lab Details modal: a header bar (name + device + status +
+   actions) over an aligned config grid with a storage meter.
+   ============================================================ */
+.sys-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sys-item {
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-white);
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.sys-item:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border));
+  box-shadow: 0 14px 32px rgba(16, 24, 40, 0.08);
+  transform: translateY(-1px);
+}
+
+/* ---- header bar ---- */
+.sys-item-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.05rem;
+}
+
+.sys-id { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+.sys-id-badge {
+  width: 40px; height: 40px; flex: none; border-radius: 12px;
+  display: grid; place-items: center; color: var(--color-primary);
+  background: linear-gradient(140deg, rgba(0, 135, 56, 0.14), rgba(26, 182, 157, 0.16));
+  border: 1px solid rgba(0, 135, 56, 0.14);
+}
+.sys-id-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+.sys-id-name {
+  font-weight: 700; color: var(--color-heading);
+  font-size: 1rem; letter-spacing: -0.01em; overflow-wrap: anywhere;
+}
+.sys-id-device {
+  margin-top: 0.12rem; font-size: 0.78rem; font-weight: 600;
+  color: var(--color-text); overflow-wrap: anywhere;
+}
+
+.sys-item-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
+
+/* quiet, consistent icon buttons — Delete is a restrained danger ghost,
+   not a loud filled red pill */
+.sys-btns { display: inline-flex; align-items: center; gap: 0.4rem; }
+.sys-btn {
+  width: 36px; height: 36px; flex: none; border-radius: 10px;
+  display: grid; place-items: center;
+  border: 1px solid var(--color-border); background: var(--color-white); color: var(--color-text);
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+.sys-btn:hover {
+  color: var(--color-primary); border-color: var(--color-primary);
+  background: rgba(0, 135, 56, 0.07); transform: translateY(-1px);
+}
+.sys-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.sys-btn--danger:hover {
+  color: var(--color-danger); border-color: var(--color-danger); background: rgba(255, 0, 3, 0.06);
+}
+.sys-btn--danger:focus-visible { outline-color: var(--color-danger); }
+
+/* ---- config body ---- */
+.sys-body {
+  padding: 0.95rem 1.05rem 1.05rem;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-light-bg) 55%, var(--color-white));
+}
+
+.sys-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 0.85rem 1.5rem;
+}
+
+.sys-spec { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.sys-spec-k {
+  color: var(--color-text); font-weight: 700;
+  text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.06em;
+}
+.sys-spec-v {
+  color: var(--color-heading); font-weight: 600; font-size: 0.9rem;
+  line-height: 1.35; overflow-wrap: anywhere; font-variant-numeric: tabular-nums;
+}
+
+/* ---- storage meter ---- */
+.sys-storage {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
+.sys-storage-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;
+}
+.sys-storage-num {
+  font-size: 0.9rem; color: var(--color-text); font-variant-numeric: tabular-nums;
+  display: inline-flex; align-items: baseline; gap: 0.3rem;
+}
+.sys-storage-num b { color: var(--color-heading); font-weight: 700; }
+.sys-storage-num i { font-style: normal; }
+.sys-storage-pct {
+  margin-left: 0.35rem; padding: 0.12rem 0.5rem; border-radius: 999px;
+  background: rgba(0, 135, 56, 0.1); color: var(--color-primary);
+  font-size: 0.75rem; font-weight: 700;
+}
+.sys-meter {
+  height: 8px; border-radius: 999px; overflow: hidden;
+  background: color-mix(in srgb, var(--color-muted) 35%, var(--color-white));
+}
+.sys-meter-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-teal));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sys-storage.is-warning .sys-meter-fill { background: linear-gradient(90deg, var(--color-warning-bright), var(--color-warning)); }
+.sys-storage.is-warning .sys-storage-pct { background: rgba(255, 143, 60, 0.16); color: var(--color-warning-strong); }
+.sys-storage.is-danger .sys-meter-fill { background: linear-gradient(90deg, var(--color-danger-strong), var(--color-danger)); }
+.sys-storage.is-danger .sys-storage-pct { background: rgba(255, 0, 3, 0.12); color: var(--color-danger); }
+
+.sys-noconfig {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.86rem;
+}
+.sys-noconfig b { color: var(--color-heading); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sys-item:hover { transform: none; }
+  .sys-meter-fill { transition: none; }
+}
+
+@media (max-width: 560px) {
+  .sys-item-bar { align-items: flex-start; }
+  .sys-item-actions { width: 100%; justify-content: space-between; }
+}

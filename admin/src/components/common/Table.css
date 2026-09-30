@@ -1,0 +1,29 @@
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-table-border);
+  color: var(--color-text);
+}
+
+.data-table th {
+  color: var(--color-heading);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--color-light-bg);
+}
+
+.table-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text);
+}

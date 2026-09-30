@@ -1,0 +1,36 @@
+/* Logs history table — uses shared color tokens */
+
+.log-list-page {
+    padding: 24px;
+}
+
+.log-list-title {
+    color: var(--color-heading);
+    margin-bottom: 16px;
+}
+
+.log-list-status {
+    color: var(--color-heading);
+}
+
+.log-list-error {
+    color: var(--color-warning);
+}
+
+.log-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-card-bg);
+}
+
+.log-list-table th,
+.log-list-table td {
+    border: 1px solid var(--color-border);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.log-list-table th {
+    background: var(--color-light-bg);
+    color: var(--color-heading);
+}

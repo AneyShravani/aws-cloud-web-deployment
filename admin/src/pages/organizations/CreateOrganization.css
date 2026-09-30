@@ -1,0 +1,53 @@
+.create-org-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.create-org-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.create-org-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.create-org-field label {
+  color: var(--color-heading);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.create-org-field input {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.8rem 0.95rem;
+  background: var(--color-white);
+}
+
+.create-org-field input.input-error {
+  border-color: var(--color-danger);
+}
+
+.field-error {
+  color: var(--color-danger);
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+  display: block;
+}
+
+.create-org-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.3rem;
+}
+
+@media (max-width: 640px) {
+  .create-org-grid {
+    grid-template-columns: 1fr;
+  }
+}

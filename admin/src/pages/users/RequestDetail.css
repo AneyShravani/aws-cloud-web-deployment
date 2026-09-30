@@ -1,0 +1,133 @@
+/* ============================================================
+   RequestDetail — scoped to .req-* only, safe to drop in
+   without colliding with Srushti's sidebar/dashboard styles.
+   Uses ONLY tokens already defined in colors.css.
+   ============================================================ */
+
+.req-page {
+  max-width: 640px; /* single-record page, not full-bleed */
+  margin: 8px 0;
+}
+
+.req-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0 0 20px;
+  letter-spacing: -0.01em; /* tighter tracking = less "default form" feel */
+}
+
+/* --- Card wrapping the record --- */
+.req-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); /* barely-there lift, not a drop shadow cliche */
+}
+
+.req-row {
+  display: grid;
+  grid-template-columns: 180px 1fr; /* fixed label column keeps values aligned */
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-table-border);
+}
+
+.req-row--last {
+  border-bottom: none;
+}
+
+.req-row:nth-child(even) {
+  background: var(
+    --color-light-bg
+  ); /* subtle zebra, replaces default border=1 look */
+}
+
+.req-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: uppercase; /* differentiates label from value without extra color */
+  letter-spacing: 0.03em;
+}
+
+.req-label svg {
+  color: var(--color-muted); /* icons stay quiet, don't compete with text */
+  flex-shrink: 0;
+}
+
+.req-value {
+  font-size: 15px;
+  color: var(--color-heading);
+  font-weight: 500;
+}
+
+/* --- HOD letter as a pill-style link, not a bare underlined <a> --- */
+.req-letter-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-section-bg);
+  color: var(--color-info);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.req-letter-link:hover {
+  background: var(--color-border);
+}
+
+/* --- Primary action --- */
+.req-assign-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 11px 20px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.req-assign-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.req-assign-btn:active {
+  transform: scale(0.98); /* tiny press feedback, not a bounce animation */
+}
+
+.req-assign-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* --- Status text (loading / error / empty) --- */
+.req-status {
+  font-size: 14px;
+  color: var(--color-text);
+  padding: 12px 0;
+}
+
+.req-status--error {
+  color: var(--color-danger);
+}
+button.req-letter-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
