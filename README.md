@@ -4,12 +4,12 @@ A full-stack web application deployed on AWS using **Amazon S3 for the React fro
 
 ## 🚀 Live Application
 
-**Frontend:**
-http://aws-cloud-web-frontend-shravani.s3-website.ap-south-1.amazonaws.com/dashboard
+**Frontend:** http://aws-cloud-web-frontend-shravani.s3-website.ap-south-1.amazonaws.com
 
 The deployed application has been tested for login, API communication, and application data retrieval.
 
----
+> Open the frontend URL above and log in to access the dashboard.
+
 
 ## ☁️ Architecture
 
